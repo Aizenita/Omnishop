@@ -1,0 +1,35 @@
+package com.springwebappsb.omnishop.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "linea_venta")
+public class LineaVenta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "linea_venta_id_gen")
+    @SequenceGenerator(name = "linea_venta_id_gen", sequenceName = "linea_venta_id_seq", allocationSize = 1)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "producto_id")
+    private Producto producto;
+
+    @NotNull
+    @Column(name = "cantidad", nullable = false)
+    private Integer cantidad;
+
+    @NotNull
+    @Column(name = "precio_unitario", nullable = false, precision = 10, scale = 2)
+    private BigDecimal precioUnitario;
+
+}
