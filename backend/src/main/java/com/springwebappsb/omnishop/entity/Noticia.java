@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -33,7 +34,7 @@ public class Noticia {
     private String imagenUrl;
 
     @Column(name = "fecha_publicacion")
-    private Instant fechaPublicacion;
+    private LocalDateTime fechaPublicacion;
 
     @Size(max = 100)
     @Column(name = "creado_por", length = 100)

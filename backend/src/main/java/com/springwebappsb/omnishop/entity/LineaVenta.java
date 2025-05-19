@@ -24,6 +24,10 @@ public class LineaVenta {
     @JoinColumn(name = "producto_id")
     private Producto producto;
 
+    @ManyToOne
+    @JoinColumn(name = "venta_id")
+    private Venta venta;
+
     @NotNull
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;

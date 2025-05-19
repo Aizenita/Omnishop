@@ -53,15 +53,4 @@ public class ProductoController {
         productoService.eliminarProducto(id);
         return ResponseEntity.noContent().build();
     }
-
-    //TODO 🔁 ¿Qué sigue cuando acabes esto?
-    //✅ Ya puedes testear el módulo completo con Postman
-    //
-    //🔁 Usar este mismo patrón para Usuario, Categoria, etc.
-    //
-    //🛡️ Luego agregar seguridad (JWT o Session)
-    //
-    //📦 Documentar con Swagger
-    //
-    //🚀 Y preparar el despliegue con Docker
 }

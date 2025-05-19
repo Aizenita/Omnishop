@@ -1,5 +1,6 @@
 package com.springwebappsb.omnishop.entity;
 
+import com.springwebappsb.omnishop.enums.Rol;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -39,8 +40,9 @@ public class Usuario {
 
     @Size(max = 20)
     @ColumnDefault("'CLIENTE'")
+    @Enumerated(EnumType.STRING)
     @Column(name = "rol", length = 20)
-    private String rol;
+    private Rol rol;
 
     @ColumnDefault("true")
     @Column(name = "activo")

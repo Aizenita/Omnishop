@@ -29,4 +29,8 @@ public class LogAccionAdmin {
     @Column(name = "fecha")
     private Instant fecha;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private Usuario admin;
+
 }

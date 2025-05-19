@@ -19,6 +19,10 @@ public class DireccionEnvio {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     @Size(max = 255)
     @Column(name = "calle")
     private String calle;
