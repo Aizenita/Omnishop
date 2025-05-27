@@ -5,6 +5,7 @@ import com.springwebappsb.omnishop.dto.response.BannerResponseDto;
 import com.springwebappsb.omnishop.dto.update.BannerUpdateDto;
 import com.springwebappsb.omnishop.mapper.rest.BannerRestMapper;
 import com.springwebappsb.omnishop.service.BannerService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
