@@ -35,6 +35,7 @@ public class ProductoRestMapper {
     public ProductoResponseDto toResponse(ProductoDto productoDto){
 
         return ProductoResponseDto.builder()
+                .id(productoDto.getId())
                 .nombre(productoDto.getNombre())
                 .precio(productoDto.getPrecio())
                 .descripcion(productoDto.getDescripcion())
