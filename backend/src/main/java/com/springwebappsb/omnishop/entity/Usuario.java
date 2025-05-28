@@ -37,7 +37,6 @@ public class Usuario {
     @Column(name = "\"contraseña\"", nullable = false)
     private String contraseña;
 
-    @Size(max = 20)
     @ColumnDefault("'CLIENTE'")
     @Enumerated(EnumType.STRING)
     @Column(name = "rol", length = 20)
