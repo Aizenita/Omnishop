@@ -16,6 +16,8 @@ public class ProductoMapper {
                 .categoria(producto.getCategoria())
                 .descripcion(producto.getDescripcion())
                 .imagen(producto.getImagen())
+                .destacado(producto.getDestacado())
+                .visible(producto.getVisible())
                 .build();
     }
 
@@ -29,6 +31,8 @@ public class ProductoMapper {
                 .categoria(productoDto.getCategoria())
                 .descripcion(productoDto.getDescripcion())
                 .imagen(productoDto.getImagen())
+                .destacado(productoDto.getDestacado())
+                .visible(productoDto.getVisible())
                 .build();
     }
 

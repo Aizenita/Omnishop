@@ -19,5 +19,7 @@ public class ProductoUpdateDto {
     private String descripcion;
     private String imagen;
     private Long categoriaId;
+    private boolean destacado;
+    private boolean visible;
 
 }

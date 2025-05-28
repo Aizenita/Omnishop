@@ -63,8 +63,12 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public List<ProductoDto> listarProductos() {
-        return productoRepository.findAll().stream()
-                .map(productoMapper::ProductotoDto)
-                .toList();
+        List<Producto> productos = productoRepository.findAll();
+        System.out.println("Número de productos encontrados por findAll(): " + productos.size());
+        System.out.println("Productos (desde ServiceImpl): " + productos);
+        return productos.stream().map(productoMapper::ProductotoDto).toList();
+       // return productoRepository.findAll().stream()
+          //      .map(productoMapper::ProductotoDto)
+             //   .toList();
     }
 }

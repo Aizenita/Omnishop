@@ -18,6 +18,8 @@ public class ProductoRequestDto {
     private String descripcion;
     private String imagen;
     private Long categoriaId;
+    private boolean destacado;
+    private boolean visible;
 
 
 }

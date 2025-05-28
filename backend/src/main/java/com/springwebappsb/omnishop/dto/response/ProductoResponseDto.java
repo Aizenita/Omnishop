@@ -19,5 +19,7 @@ public class ProductoResponseDto {
     private String descripcion;
     private String imagen;
     private Long categoriaId;
+    private Boolean destacado;
+    private Boolean visible;
 
 }
