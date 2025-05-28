@@ -16,8 +16,7 @@ import java.time.Instant;
 @Table(name = "log_accion_admin")
 public class LogAccionAdmin {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "log_accion_admin_id_gen")
-    @SequenceGenerator(name = "log_accion_admin_id_gen", sequenceName = "log_accion_admin_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

@@ -17,8 +17,7 @@ import java.time.Instant;
 @Table(name = "banner")
 public class Banner {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "banner_id_gen")
-    @SequenceGenerator(name = "banner_id_gen", sequenceName = "banner_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

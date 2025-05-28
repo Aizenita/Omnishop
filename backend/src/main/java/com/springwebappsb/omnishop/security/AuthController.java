@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -40,6 +42,11 @@ public class AuthController {
                 .contraseña(passwordEncoder.encode(request.getPassword()))
                 .nombre(request.getNombre())
                 .rol(Rol.CLIENTE)
+                .activo(true)  // AÑADIDO
+                .creadoPor("registro")  // AÑADIDO
+                .modificadoPor("registro")  // AÑADIDO
+                .fechaCreacion(Instant.now())  // AÑADIDO
+                .fechaModificacion(Instant.now())
                 .build();
 
         usuarioRepository.save(usuario);

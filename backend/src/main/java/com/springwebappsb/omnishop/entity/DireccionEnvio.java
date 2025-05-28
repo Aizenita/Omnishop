@@ -14,8 +14,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(name = "direccion_envio")
 public class DireccionEnvio {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "direccion_envio_id_gen")
-    @SequenceGenerator(name = "direccion_envio_id_gen", sequenceName = "direccion_envio_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
