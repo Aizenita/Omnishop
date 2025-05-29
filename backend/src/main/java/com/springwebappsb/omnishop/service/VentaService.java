@@ -10,4 +10,6 @@ public interface VentaService {
     void eliminar(Long id);
     VentaDto obtener(Long id);
     List<VentaDto> listar();
+    void actualizarCantidadEnCarrito(Long usuarioId, Long productoId, int cantidad);
+
 }

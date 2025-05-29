@@ -5,6 +5,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 
 @Getter
@@ -18,4 +19,7 @@ public class VentaDto {
     private BigDecimal total;
     private Instant fecha;
     private Long usuarioId;
+    private Set<LineaVentaDto> lineasVenta;
+    private String estadoVenta;
+
 }

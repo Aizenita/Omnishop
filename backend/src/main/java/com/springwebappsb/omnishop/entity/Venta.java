@@ -1,5 +1,6 @@
 package com.springwebappsb.omnishop.entity;
 
+import com.springwebappsb.omnishop.enums.EstadoVenta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -7,6 +8,8 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,6 +35,10 @@ public class Venta {
     @Column(name = "total", precision = 10, scale = 2)
     private BigDecimal total;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_venta", length = 20)
+    private EstadoVenta estadoVenta;
+
     @Size(max = 100)
     @Column(name = "creado_por", length = 100)
     private String creadoPor;
@@ -47,5 +54,8 @@ public class Venta {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "fecha_modificacion")
     private Instant fechaModificacion;
+
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<LineaVenta> lineasVenta = new LinkedHashSet<>();
 
 }

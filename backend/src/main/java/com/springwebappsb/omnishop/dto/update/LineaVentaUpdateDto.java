@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 @Builder
 public class LineaVentaUpdateDto {
     private Long id;
+    private String nombreProducto;
     private Integer cantidad;
     private BigDecimal precioUnitario;
+    private BigDecimal subtotal;
 }

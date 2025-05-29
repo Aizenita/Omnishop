@@ -35,4 +35,10 @@ public class LineaVenta {
     @Column(name = "precio_unitario", nullable = false, precision = 10, scale = 2)
     private BigDecimal precioUnitario;
 
+    @Transient
+    public BigDecimal getSubtotal() {
+        return precioUnitario.multiply(BigDecimal.valueOf(cantidad));
+    }
+
+
 }
