@@ -21,11 +21,9 @@ public class DireccionEnvioMapper {
     }
 
     public DireccionEnvio toEntity(DireccionEnvioDto dto) {
-        Usuario u = new Usuario();
-        u.setId(dto.getUsuarioId());
+
         return DireccionEnvio.builder()
                 .id(dto.getId())
-                .usuario(u)
                 .calle(dto.getCalle())
                 .ciudad(dto.getCiudad())
                 .cp(dto.getCp())
