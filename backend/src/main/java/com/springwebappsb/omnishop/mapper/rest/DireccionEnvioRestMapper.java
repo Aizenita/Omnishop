@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 public class DireccionEnvioRestMapper {
     public DireccionEnvioDto fromRequest(DireccionEnvioRequestDto req) {
         return DireccionEnvioDto.builder()
-                .usuarioId(req.getUsuarioId())
                 .calle(req.getCalle())
                 .ciudad(req.getCiudad())
                 .cp(req.getCp())

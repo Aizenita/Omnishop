@@ -1,6 +1,7 @@
 package com.springwebappsb.omnishop.mapper.internal;
 
 import com.springwebappsb.omnishop.dto.DireccionEnvioDto;
+import com.springwebappsb.omnishop.dto.request.DireccionEnvioRequestDto;
 import com.springwebappsb.omnishop.entity.DireccionEnvio;
 import com.springwebappsb.omnishop.entity.Usuario;
 import org.springframework.stereotype.Component;
@@ -32,5 +33,15 @@ public class DireccionEnvioMapper {
                 .predeterminada(dto.getPredeterminada())
                 .build();
     }
+    public DireccionEnvio toEntity(DireccionEnvioRequestDto dto) {
+        return DireccionEnvio.builder()
+                .calle(dto.getCalle())
+                .ciudad(dto.getCiudad())
+                .cp(dto.getCp())
+                .pais(dto.getPais())
+                .predeterminada(dto.isPredeterminada())
+                .build();
+    }
+
 }
 

@@ -8,11 +8,14 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class DireccionEnvioRequestDto {
-    private Long usuarioId;
     private String calle;
     private String ciudad;
     private String cp;
     private String pais;
     private Boolean predeterminada;
+
+    public boolean isPredeterminada() {
+        return predeterminada;
+    }
 }
 

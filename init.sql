@@ -49,7 +49,7 @@ CREATE TABLE venta (
                        modificado_por VARCHAR(100),
                        fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                       estado_venta VARCHAR(30) DEFAULT 'CARRITO_ACTIVO',
+                       estado_venta VARCHAR(30) DEFAULT 'CARRITO_ACTIVO'
 );
 
 -- LÍNEAS DE VENTA
