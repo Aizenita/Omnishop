@@ -23,10 +23,6 @@ public class DireccionEnvioController {
     private final DireccionEnvioService service;
     private final DireccionEnvioRestMapper restMapper;
 
-    @PostMapping
-    public ResponseEntity<DireccionEnvioResponseDto> crear(@RequestBody DireccionEnvioRequestDto request) {
-        return ResponseEntity.ok(restMapper.toResponse(service.crear(restMapper.fromRequest(request))));
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<DireccionEnvioResponseDto> actualizar(@PathVariable Long id,
