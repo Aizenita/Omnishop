@@ -1,20 +1,28 @@
 package com.springwebappsb.omnishop.service.impl;
 
 import com.springwebappsb.omnishop.dto.VentaDto;
-import com.springwebappsb.omnishop.entity.LineaVenta;
-import com.springwebappsb.omnishop.entity.Usuario;
-import com.springwebappsb.omnishop.entity.Venta;
+import com.springwebappsb.omnishop.dto.request.ItemPedidoDto;
+import com.springwebappsb.omnishop.dto.request.PagoRequestDto;
+import com.springwebappsb.omnishop.entity.*;
 import com.springwebappsb.omnishop.enums.EstadoVenta;
 import com.springwebappsb.omnishop.mapper.internal.VentaMapper;
-import com.springwebappsb.omnishop.repository.VentaRepository;
+import com.springwebappsb.omnishop.repository.*;
 import com.springwebappsb.omnishop.service.VentaService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +30,10 @@ public class VentaServiceImpl implements VentaService {
 
     private final VentaRepository repository;
     private final VentaMapper mapper;
+    private final UsuarioRepository usuarioRepository;
+    private final ProductoRepository productoRepository;
+    private final LineaVentaRepository lineaVentaRepository;
+    private final DireccionEnvioRepository direccionEnvioRepository;
 
     @Override
     public VentaDto crear(VentaDto dto) {
@@ -70,6 +82,57 @@ public class VentaServiceImpl implements VentaService {
         repository.save(carrito);
     }
 
+    @Override
+    @Transactional
+    public Venta crearVentaPendiente(PagoRequestDto dto, Authentication auth) {
+        Usuario usuario = usuarioRepository.findByEmail(auth.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        Venta venta = Venta.builder()
+                .usuario(usuario)
+                .estadoVenta(EstadoVenta.PENDIENTE_PAGO)
+                .fechaCreacion(Instant.now())
+                .total(BigDecimal.ZERO) // temporal
+                .build();
+        repository.save(venta);
+
+        BigDecimal subtotal = BigDecimal.ZERO;
+
+        for (ItemPedidoDto item : dto.getItems()) {
+            Producto producto = productoRepository.findById(item.getProductoId())
+                    .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + item.getProductoId()));
+
+            LineaVenta linea = LineaVenta.builder()
+                    .venta(venta)
+                    .producto(producto)
+                    .cantidad(item.getCantidad())
+                    .precioUnitario(producto.getPrecio())
+                    .build();
+
+            subtotal = subtotal.add(producto.getPrecio().multiply(BigDecimal.valueOf(item.getCantidad())));
+            lineaVentaRepository.save(linea);
+        }
+
+        BigDecimal gastosEnvio = new BigDecimal("5.00");
+        BigDecimal impuestos = subtotal.multiply(new BigDecimal("0.10")); // 10%
+
+        BigDecimal total = subtotal.add(gastosEnvio).add(impuestos);
+        venta.setTotal(total);
+        System.out.println("VENTA PERSISTIDA: " + venta.getId() + " Total: " + venta.getTotal());
+        return repository.save(venta);
+    }
+
+    public void marcarVentaComoPagada(Long ventaId) {
+        Venta venta = repository.findById(ventaId)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+
+        venta.setEstadoVenta(EstadoVenta.COMPLETADA);
+        repository.save(venta);
+        System.out.println("🟢 Venta marcada como pagada: " + ventaId);
+    }
+
+
+
     private Venta obtenerOCrearCarritoActivo(Long usuarioId) {
         return repository.findByUsuarioIdAndEstadoVenta(usuarioId, EstadoVenta.CARRITO_ACTIVO)
                 .orElseGet(() -> {
@@ -80,4 +143,36 @@ public class VentaServiceImpl implements VentaService {
                     return repository.save(nueva);
                 });
     }
+
+    public Venta crearVentaPagadaSimulada(PagoRequestDto dto, Authentication auth) {
+        // 1. Lógica muy parecida a crearVentaPendiente
+        Venta venta = new Venta();
+        Usuario usuario = usuarioRepository.findByEmail(auth.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        venta.setUsuario(usuario);
+        venta.setEstadoVenta(EstadoVenta.valueOf("PAGO_SIMULADO"));
+        venta.setFecha(Instant.now());
+        venta.setTotal(BigDecimal.valueOf(dto.getTotal()));
+
+        DireccionEnvio direccion = direccionEnvioRepository.findById(dto.getDireccionEnvioId())
+                .orElseThrow(() -> new RuntimeException("Dirección de envío no encontrada"));
+
+
+        repository.save(venta);
+
+        // Añadir líneas de venta
+        for (ItemPedidoDto item : dto.getItems()) {
+            Producto producto = productoRepository.findById(item.getProductoId())
+                    .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+            LineaVenta linea = new LineaVenta();
+            linea.setVenta(venta);
+            linea.setProducto(producto);
+            linea.setCantidad(item.getCantidad());
+            linea.setPrecioUnitario(producto.getPrecio());
+            lineaVentaRepository.save(linea);
+        }
+
+        return venta;
+    }
+
 }

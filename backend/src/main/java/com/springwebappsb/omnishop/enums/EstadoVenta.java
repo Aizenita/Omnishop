@@ -8,5 +8,6 @@ public enum EstadoVenta {
     ENVIADA,        // Pedido enviado
     ENTREGADA,      // Pedido entregado
     COMPLETADA,     // Pedido finalizado y archivado (opcional)
-    CANCELADA       // Venta cancelada
+    CANCELADA ,      // Venta cancelada
+    PAGO_SIMULADO
 }
